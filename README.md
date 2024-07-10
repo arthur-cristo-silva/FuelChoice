@@ -1,6 +1,6 @@
 # Gas Calculator
 
-Uma aplicação Android que calcula para o usuário se é mais vantajoso abastecer seu carro com álcool ou gasolina.
+Uma aplicação Android que calcula para o usuário se é mais vantajoso abastecer seu veículo com álcool ou gasolina.
 
 ## Tecnologias Utilizadas
 - Kotlin

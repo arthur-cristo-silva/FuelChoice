@@ -1,8 +1,14 @@
 # Gas Calculator
 
-Uma aplicação Android que calcula para o usuário se é mais vantajoso abastecer seu veículo com álcool ou gasolina.
-
-<img src=https://github.com/arthur-cristo-silva/Gas-Calculator/blob/main/app/src/main/res/screenshot.png width=30% alt=Screenshot>
+Uma aplicação Android que ajuda o usuário a decidir se é mais vantajoso abastecer o veículo com álcool ou gasolina. O aplicativo oferece dois tipos de cálculos:
+- Cálculo Simples: Calcula a relação direta entre os preços do álcool e da gasolina. O álcool é mais vantajoso se custar menos de 70% do preço da gasolina.
+- Cálculo Específico: Considera a relação entre a distância percorrida e o preço dos combustíveis para determinar qual é mais econômico.
+  
+## Screenshots
+<p>
+<img src=https://github.com/arthur-cristo-silva/Gas-Calculator/blob/main/app/src/main/res/screenshot.png width=49% alt=Cálculo Simples>
+<img src=https://github.com/arthur-cristo-silva/Gas-Calculator/blob/main/app/src/main/res/screenshot2.png width=49% alt=Cálculo Espécifico>
+</p>
 
 ## Como Executar
 1. Baixe a última versão do programa na página de Releases.

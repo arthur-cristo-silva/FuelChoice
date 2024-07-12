@@ -1,4 +1,4 @@
-package com.arthur.gascalculator.ui.theme
+package com.arthur.fuelchoice.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

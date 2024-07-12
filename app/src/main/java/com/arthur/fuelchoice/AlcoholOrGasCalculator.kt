@@ -1,16 +1,16 @@
-package com.arthur.gascalculator
+package com.arthur.fuelchoice
 
 import java.text.NumberFormat
 import java.util.Locale
 
-class AlcoholOrGasCalculator {
-    fun simpleCalculate(alcoholValue: String, gasValue: String): String {
+class AlcoholOrGasolineCalculator {
+    fun simpleCalculate(alcoholValue: String, gasolineValue: String): String {
         val format: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
         var result: String
         try {
             val alcohol = format.parse(alcoholValue)?.toDouble() ?: alcoholValue.toDouble()
-            val gas = format.parse(gasValue)?.toDouble() ?: gasValue.toDouble()
-            result = if (alcohol / gas < 0.7) {
+            val gasoline = format.parse(gasolineValue)?.toDouble() ?: gasolineValue.toDouble()
+            result = if (alcohol / gasoline < 0.7) {
                 "Álcool"
             } else {
                 "Gasolina"
@@ -24,28 +24,28 @@ class AlcoholOrGasCalculator {
     fun specificCalculate(
         alcoholValue: String,
         alcoholDistance: String,
-        gasValue: String,
-        gasDistance: String
+        gasolineValue: String,
+        gasolineDistance: String
     ): List<String> {
         val format: NumberFormat = NumberFormat.getInstance(Locale.getDefault())
         var result: String
         var alcoholPerformance = 0.0
-        var gasPerformance = 0.0
+        var gasolinePerformance = 0.0
         try {
             val alcoholPrice = format.parse(alcoholValue)?.toDouble() ?: alcoholValue.toDouble()
             val alcoholDis = format.parse(alcoholDistance)?.toDouble() ?: alcoholDistance.toDouble()
-            val gasPrice = format.parse(gasValue)?.toDouble() ?: gasValue.toDouble()
-            val gasDis = format.parse(gasDistance)?.toDouble() ?: gasDistance.toDouble()
+            val gasolinePrice = format.parse(gasolineValue)?.toDouble() ?: gasolineValue.toDouble()
+            val gasolineDis = format.parse(gasolineDistance)?.toDouble() ?: gasolineDistance.toDouble()
             alcoholPerformance = alcoholPrice / alcoholDis
-            gasPerformance = gasPrice / gasDis
+            gasolinePerformance = gasolinePrice / gasolineDis
             result = when {
-                alcoholPerformance < gasPerformance -> "Álcool"
-                alcoholPerformance > gasPerformance -> "Gasolina"
+                alcoholPerformance < gasolinePerformance -> "Álcool"
+                alcoholPerformance > gasolinePerformance -> "Gasolina"
                 else -> "Idem"
             }
         } catch (e: NumberFormatException) {
             result = "Dados Inválidos"
         }
-        return listOf(result, alcoholPerformance.toString(), gasPerformance.toString())
+        return listOf(result, alcoholPerformance.toString(), gasolinePerformance.toString())
     }
 }

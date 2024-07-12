@@ -1,4 +1,4 @@
-package com.arthur.gascalculator
+package com.arthur.fuelchoice
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,18 +39,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arthur.gascalculator.ui.theme.GasCalculatorTheme
-import com.arthur.gascalculator.ui.theme.blackBackGround
-import com.arthur.gascalculator.ui.theme.darkGray
-import com.arthur.gascalculator.ui.theme.lightGray
-import com.arthur.gascalculator.ui.theme.lightGreen
+import com.arthur.fuelchoice.ui.theme.FuelChoiceTheme
+import com.arthur.fuelchoice.ui.theme.blackBackGround
+import com.arthur.fuelchoice.ui.theme.darkGray
+import com.arthur.fuelchoice.ui.theme.lightGray
+import com.arthur.fuelchoice.ui.theme.lightGreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            GasCalculatorTheme {
+            FuelChoiceTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -165,7 +165,7 @@ fun simpleFormulaView(): String {
     var askForInputText by remember {
         mutableStateOf("Por favor, insira o preço do litro de álcool:")
     }
-    var gasValue by remember {
+    var gasolineValue by remember {
         mutableStateOf("")
     }
     var alcoholValue by remember {
@@ -173,10 +173,10 @@ fun simpleFormulaView(): String {
     }
     if (alcoholValue.isBlank()) {
         askForInputText = "Insira o preço do litro de álcool:"
-    } else if (gasValue.isBlank()) {
+    } else if (gasolineValue.isBlank()) {
         askForInputText = "Insira o preço do litro de gasolina:"
     }
-    if (alcoholValue.isBlank() || gasValue.isBlank()) {
+    if (alcoholValue.isBlank() || gasolineValue.isBlank()) {
         Text(
             text = askForInputText,
             style = MaterialTheme.typography.bodyLarge,
@@ -217,9 +217,9 @@ fun simpleFormulaView(): String {
         )
     )
     TextField(
-        value = gasValue,
+        value = gasolineValue,
         onValueChange = {
-            gasValue = it
+            gasolineValue = it
         },
         prefix = {
             Text(text = "R$ ", color = Color.White)
@@ -251,9 +251,9 @@ fun simpleFormulaView(): String {
     Button(
         onClick = {
             keyboardController?.hide()
-            result = AlcoholOrGasCalculator().simpleCalculate(alcoholValue, gasValue)
+            result = AlcoholOrGasolineCalculator().simpleCalculate(alcoholValue, gasolineValue)
         },
-        enabled = (alcoholValue.isNotBlank() && gasValue.isNotBlank()),
+        enabled = (alcoholValue.isNotBlank() && gasolineValue.isNotBlank()),
         colors = ButtonDefaults.buttonColors(
             disabledContainerColor = darkGray,
             disabledContentColor = lightGray,
@@ -300,10 +300,10 @@ fun specificFormulaView(): String {
     var askForInputText by remember {
         mutableStateOf("Por favor, insira o preço do litro de álcool:")
     }
-    var gasDistance by remember {
+    var gasolineDistance by remember {
         mutableStateOf("")
     }
-    var gasValue by remember {
+    var gasolineValue by remember {
         mutableStateOf("")
     }
     var alcoholDistance by remember {
@@ -315,7 +315,7 @@ fun specificFormulaView(): String {
     var alcoholPerfomance by remember {
         mutableStateOf("")
     }
-    var gasPerfomance by remember {
+    var gasolinePerfomance by remember {
         mutableStateOf("")
     }
     var text by remember {
@@ -325,14 +325,14 @@ fun specificFormulaView(): String {
         askForInputText = "Informe o preço do litro de álcool:"
     } else if (alcoholDistance.isBlank()) {
         askForInputText = "Informe os km rodados por litro de álcool:"
-    } else if (gasValue.isBlank()) {
+    } else if (gasolineValue.isBlank()) {
         askForInputText = "Informe o preço do litro de gasolina:"
-    } else if (gasDistance.isBlank()) {
+    } else if (gasolineDistance.isBlank()) {
         askForInputText = "Informe os km rodados por litro de gasolina:"
     }
     if (alcoholValue.isBlank() ||
-        gasValue.isBlank() ||
-        gasDistance.isBlank() ||
+        gasolineValue.isBlank() ||
+        gasolineDistance.isBlank() ||
         alcoholDistance.isBlank()) {
         Text(
             text = askForInputText,
@@ -406,9 +406,9 @@ fun specificFormulaView(): String {
         )
     )
     TextField(
-        value = gasValue,
+        value = gasolineValue,
         onValueChange = {
-            gasValue = it
+            gasolineValue = it
         },
         prefix = {
             Text(text = "R$ ", color = Color.White)
@@ -438,9 +438,9 @@ fun specificFormulaView(): String {
         )
     )
     TextField(
-        value = gasDistance,
+        value = gasolineDistance,
         onValueChange = {
-            gasDistance = it
+            gasolineDistance = it
         },
         label = {
             Text(
@@ -472,20 +472,20 @@ fun specificFormulaView(): String {
     Button(
         onClick = {
             keyboardController?.hide()
-            result = AlcoholOrGasCalculator().specificCalculate(
-                alcoholValue, alcoholDistance, gasValue, gasDistance
+            result = AlcoholOrGasolineCalculator().specificCalculate(
+                alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
             )[0]
-            alcoholPerfomance = AlcoholOrGasCalculator().specificCalculate(
-                alcoholValue, alcoholDistance, gasValue, gasDistance
+            alcoholPerfomance = AlcoholOrGasolineCalculator().specificCalculate(
+                alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
             )[1]
-            gasPerfomance = AlcoholOrGasCalculator().specificCalculate(
-                alcoholValue, alcoholDistance, gasValue, gasDistance
+            gasolinePerfomance = AlcoholOrGasolineCalculator().specificCalculate(
+                alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
             )[2]
         },
         enabled = (alcoholValue.isNotBlank() &&
-                gasValue.isNotBlank() &&
+                gasolineValue.isNotBlank() &&
                 alcoholDistance.isNotBlank() &&
-                gasDistance.isNotBlank()),
+                gasolineDistance.isNotBlank()),
         colors = ButtonDefaults.buttonColors(
             disabledContainerColor = darkGray,
             disabledContentColor = lightGray,
@@ -513,7 +513,7 @@ fun specificFormulaView(): String {
                 "Por quê ${result.lowercase()} vale mais a pena?\n\n" +
                         "Álcool: R$%.2f por km.\n" +
                         "Gasolina: R$%.2f por km.",
-                alcoholPerfomance.toDouble(), gasPerfomance.toDouble()
+                alcoholPerfomance.toDouble(), gasolinePerfomance.toDouble()
             )
             Text(
                 text = text,
@@ -530,7 +530,7 @@ fun specificFormulaView(): String {
 @Preview
 @Composable
 fun AppPreview() {
-    GasCalculatorTheme {
+    FuelChoiceTheme {
         App()
     }
 }

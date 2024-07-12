@@ -1,4 +1,4 @@
-# Gas Calculator
+# Fuel Choice
 
 Uma aplicação Android que ajuda o usuário a decidir se é mais vantajoso abastecer o veículo com álcool ou gasolina. O aplicativo oferece dois tipos de cálculos:
 - Cálculo Simples: Calcula a relação direta entre os preços do álcool e da gasolina. O álcool é mais vantajoso se custar menos de 70% do preço da gasolina.
@@ -6,8 +6,8 @@ Uma aplicação Android que ajuda o usuário a decidir se é mais vantajoso abas
   
 ## Screenshots
 <p>
-<img src=https://github.com/arthur-cristo-silva/Gas-Calculator/blob/main/app/src/main/res/screenshot.png width=49% alt=Cálculo Simples>
-<img src=https://github.com/arthur-cristo-silva/Gas-Calculator/blob/main/app/src/main/res/screenshot2.png width=49% alt=Cálculo Espécifico>
+<img src=https://github.com/arthur-cristo-silva/FuelChoice/blob/main/app/src/main/res/screenshot.png width=49% alt="Cálculo Simples">
+<img src=https://github.com/arthur-cristo-silva/FuelChoice/blob/main/app/src/main/res/screenshot2.png width=49% alt="Cálculo Espécifico">
 </p>
 
 ## Como Executar

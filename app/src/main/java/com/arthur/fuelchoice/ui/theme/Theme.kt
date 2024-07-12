@@ -1,4 +1,4 @@
-package com.arthur.gascalculator.ui.theme
+package com.arthur.fuelchoice.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -35,7 +35,7 @@ onSurface = Color(0xFF1C1B1F),
 )
 
 @Composable
-fun GasCalculatorTheme(
+fun FuelChoiceTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

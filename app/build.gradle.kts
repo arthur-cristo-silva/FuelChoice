@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.arthur.gascalculator"
+    namespace = "com.arthur.fuelchoice"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.arthur.gascalculator"
+        applicationId = "com.arthur.fuelchoice"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

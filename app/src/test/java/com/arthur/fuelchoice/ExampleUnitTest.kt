@@ -1,4 +1,4 @@
-package com.arthur.gascalculator
+package com.arthur.fuelchoice
 
 import org.junit.Test
 

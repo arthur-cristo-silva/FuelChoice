@@ -20,3 +20,6 @@ Uma aplicação Android que ajuda o usuário a decidir se é mais vantajoso abas
 ## Tecnologias Utilizadas
 - Jetpack Compose
 - Kotlin
+
+## Créditos
+<a href="https://www.flaticon.com/free-icons/gasoline" title="gasoline icons">Icon created by Freepik - Flaticon</a>

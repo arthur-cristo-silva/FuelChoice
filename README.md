@@ -8,8 +8,9 @@ Além disso, a aplicação permite visualizar postos de gasolina próximos à su
 
 ## Screenshots
 <p>
-<img src=https://github.com/arthur-cristo-silva/FuelChoice/blob/main/app/src/main/res/screenshot.png width=49% alt="Cálculo Simples">
-<img src=https://github.com/arthur-cristo-silva/FuelChoice/blob/main/app/src/main/res/screenshot2.png width=49% alt="Cálculo Espécifico">
+<img src=https://github.com/arthur-cristo-silva/FuelChoice/blob/main/app/src/main/res/CalculoSimplesScreen.png width=32% alt="Cálculo Simples">
+<img src=https://github.com/arthur-cristo-silva/FuelChoice/blob/main/app/src/main/res/CalculoEspecificoScreen.png width=32% alt="Cálculo Espécifico">
+<img src=https://github.com/arthur-cristo-silva/FuelChoice/blob/main/app/src/main/res/PostosDeGasolinaScreen.png width=32% alt="Postos de Gasolina">
 </p>
 
 ## Como Executar

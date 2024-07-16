@@ -117,7 +117,8 @@ fun FuelStationItem(station: FuelStation) {
                 .background(darkGray)
                 .clickable {
                     coroutineScope.launch {
-                        val uri = "geo:${station.latitude},${station.longitude}?q=${station.name},${station.address}"
+                        val uri =
+                            "geo:${station.latitude},${station.longitude}?q=${station.name},${station.address}"
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                         intent.setPackage("com.google.android.apps.maps")
                         launcher.launch(intent)

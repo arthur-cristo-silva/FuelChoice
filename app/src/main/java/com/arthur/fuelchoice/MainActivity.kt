@@ -61,6 +61,29 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    private fun isLocationPermissionGranted(): Boolean {
+        return if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                44
+            )
+            false
+        } else {
+            true
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -170,9 +193,12 @@ class MainActivity : ComponentActivity() {
                         onClick = {
                             showGasStations = true
                         },
+                        enabled = isLocationPermissionGranted(),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = lightGreen,
-                            contentColor = Color.Black
+                            contentColor = Color.Black,
+                            disabledContainerColor = lightGreen,
+                            disabledContentColor = Color.Black
                         ),
                         shape = RoundedCornerShape(20.dp),
                         modifier = Modifier.width(275.dp)
@@ -212,7 +238,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 
     @Composable
     fun FuelStations(context: Context) {
@@ -417,8 +442,7 @@ class MainActivity : ComponentActivity() {
         }
         if (currency.isBlank()) {
             askForInputText = "Informe o valor do abastecimento em R$:"
-        }
-        else if (alcoholValue.isBlank()) {
+        } else if (alcoholValue.isBlank()) {
             askForInputText = "Informe o preço do litro de álcool:"
         } else if (alcoholDistance.isBlank()) {
             askForInputText = "Informe os km rodados por litro de álcool:"
@@ -633,10 +657,12 @@ class MainActivity : ComponentActivity() {
         Button(
             onClick = {
                 keyboardController?.hide()
-                result = AlcoholOrGasolineCalculator().specificCalculate(currency,
+                result = AlcoholOrGasolineCalculator().specificCalculate(
+                    currency,
                     alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
                 )[0]
-                text = AlcoholOrGasolineCalculator().specificCalculate(currency,
+                text = AlcoholOrGasolineCalculator().specificCalculate(
+                    currency,
                     alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
                 )[1]
             },
@@ -677,29 +703,6 @@ class MainActivity : ComponentActivity() {
             }
         }
         return result
-    }
-
-    private fun isLocationPermissionGranted(): Boolean {
-        return if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                44
-            )
-            false
-        } else {
-            true
-        }
     }
 
     @Composable

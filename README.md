@@ -2,7 +2,7 @@
 
 Uma aplicação Android que ajuda o usuário a decidir se é mais vantajoso abastecer o veículo com álcool ou gasolina. O aplicativo oferece dois tipos de cálculos:
 - Cálculo Simples: Calcula a relação direta entre os preços do álcool e da gasolina. O álcool é mais vantajoso se custar menos de 70% do preço da gasolina.
-- Cálculo Específico: Considera a relação entre a distância percorrida e o preço dos combustíveis para determinar qual é mais econômico.
+- Cálculo Específico: Calcula para o usuário quantos quilômetros ele conseguiria dirigir abastecendo certo valor com álcool ou gasolina.
 
 Além disso, a aplicação permite visualizar postos de gasolina próximos à sua localização atual, com a possibilidade de ver detalhes no Google Maps ao clicar em um posto.
 

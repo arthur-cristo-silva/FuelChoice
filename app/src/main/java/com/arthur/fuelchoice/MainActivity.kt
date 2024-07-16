@@ -2,6 +2,7 @@ package com.arthur.fuelchoice
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +11,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import com.arthur.fuelchoice.ui.theme.FuelChoiceTheme
 import com.arthur.fuelchoice.ui.theme.blackBackGround
 import com.arthur.fuelchoice.ui.theme.darkGray
@@ -68,15 +71,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val context = this
-                    App(context)
+                    App()
+                    isLocationPermissionGranted()
                 }
             }
         }
     }
 
     @Composable
-    fun App(context: Context) {
+    fun App() {
         var result by remember {
             mutableStateOf("")
         }
@@ -90,7 +93,8 @@ class MainActivity : ComponentActivity() {
             Modifier
                 .background(blackBackGround)
                 .fillMaxSize()
-                .safeDrawingPadding(),
+                .safeDrawingPadding()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -100,74 +104,62 @@ class MainActivity : ComponentActivity() {
             ) {
                 if (!showGasStations) {
                     Text(
-                        text = if (isSimpleFormula) {
-                            "Cálculo Simples"
-                        } else {
-                            "Cálculo Específico"
-                        },
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color(0xFF8C8C8C),
-                        fontSize = 28.sp
+                        text = "FuelChoice",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White,
+                        fontSize = 48.sp,
+                        fontWeight = FontWeight.Black
                     )
                     if (result != "") {
+
+                        Text(
+                            text = "Vale mais a pena abastecer com",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color(0xFF8C8C8C),
+                            fontSize = 22.sp
+                        )
                         Text(
                             result,
                             style = MaterialTheme.typography.titleLarge,
                             color = Color.White, fontSize = 48.sp
                         )
+                    } else {
+                        Text(
+                            text = "Cálculo " +
+                                    if (isSimpleFormula) {
+                                        "Simples"
+                                    } else {
+                                        "Específico"
+                                    },
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color(0xFF8C8C8C),
+                            fontSize = 22.sp
+                        )
                     }
-                    Row(
+                    Button(
+                        onClick = { isSimpleFormula = !isSimpleFormula },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = lightGreen,
+                            contentColor = Color.Black,
+                        ),
+                        shape = RoundedCornerShape(20.dp),
                         modifier = Modifier
                             .width(275.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                            .fillMaxWidth()
                     ) {
-                        Button(
-                            onClick = { isSimpleFormula = true },
-                            enabled = !isSimpleFormula,
-                            colors = ButtonDefaults.buttonColors(
-                                disabledContainerColor = darkGray,
-                                disabledContentColor = lightGray,
-                                containerColor = lightGreen,
-                                contentColor = Color.Black
-                            ),
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier
-                                .width(125.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Cálculo Simples",
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Black,
-                                maxLines = 2,
-                                textAlign = TextAlign.Center,
-                            )
-                        }
-                        Button(
-                            onClick = {
-                                isSimpleFormula = false
-                            },
-                            enabled = isSimpleFormula,
-                            colors = ButtonDefaults.buttonColors(
-                                disabledContainerColor = darkGray,
-                                disabledContentColor = lightGray,
-                                containerColor = lightGreen,
-                                contentColor = Color.Black
-                            ),
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier
-                                .width(125.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Cálculo Específico",
-                                style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Black,
-                                maxLines = 2,
-                                textAlign = TextAlign.Center,
-                            )
-                        }
+                        Text(
+                            text = "Mudar para\n" +
+                                    if (isSimpleFormula) {
+                                        "Cálculo Específico"
+                                    } else {
+                                        "Cálculo Simples"
+                                    },
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Black,
+                            fontSize = 18.sp,
+                            maxLines = 2,
+                            textAlign = TextAlign.Center,
+                        )
                     }
                     result = if (isSimpleFormula) {
                         simpleFormulaView()
@@ -196,7 +188,9 @@ class MainActivity : ComponentActivity() {
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
-                            showGasStations = false
+                            if (isLocationPermissionGranted()) {
+                                showGasStations = false
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = lightGreen,
@@ -212,7 +206,7 @@ class MainActivity : ComponentActivity() {
                             fontSize = 18.sp
                         )
                     }
-                    FuelStations(context)
+                    FuelStations(LocalContext.current)
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
@@ -222,6 +216,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun FuelStations(context: Context) {
+
         val (latitude, longitude) = locationComponent()
         val fuelStations = remember { mutableStateOf(emptyList<FuelStation>()) }
 
@@ -264,10 +259,15 @@ class MainActivity : ComponentActivity() {
                 fontSize = 16.sp
             )
         }
+
         TextField(
             value = alcoholValue,
             onValueChange = {
-                alcoholValue = it
+                alcoholValue = if (it.startsWith("0")) {
+                    ""
+                } else {
+                    it
+                }
             },
             prefix = {
                 Text(text = "R$ ", color = Color.White)
@@ -282,6 +282,9 @@ class MainActivity : ComponentActivity() {
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Number
+            ),
+            visualTransformation = CurrencyAmountInputVisualTransformation(
+                fixedCursorAtTheEnd = true
             ),
             shape = RoundedCornerShape(20.dp),
             colors = TextFieldDefaults.colors(
@@ -302,7 +305,11 @@ class MainActivity : ComponentActivity() {
         TextField(
             value = gasolineValue,
             onValueChange = {
-                gasolineValue = it
+                gasolineValue = if (it.startsWith("0")) {
+                    ""
+                } else {
+                    it
+                }
             },
             prefix = {
                 Text(text = "R$ ", color = Color.White)
@@ -313,6 +320,9 @@ class MainActivity : ComponentActivity() {
                     style = MaterialTheme.typography.labelMedium
                 )
             },
+            visualTransformation = CurrencyAmountInputVisualTransformation(
+                fixedCursorAtTheEnd = true
+            ),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
@@ -399,16 +409,16 @@ class MainActivity : ComponentActivity() {
         var alcoholValue by remember {
             mutableStateOf("")
         }
-        var alcoholPerfomance by remember {
-            mutableStateOf("")
-        }
-        var gasolinePerfomance by remember {
-            mutableStateOf("")
-        }
         var text by remember {
             mutableStateOf("")
         }
-        if (alcoholValue.isBlank()) {
+        var currency by remember {
+            mutableStateOf("")
+        }
+        if (currency.isBlank()) {
+            askForInputText = "Informe o valor do abastecimento em R$:"
+        }
+        else if (alcoholValue.isBlank()) {
             askForInputText = "Informe o preço do litro de álcool:"
         } else if (alcoholDistance.isBlank()) {
             askForInputText = "Informe os km rodados por litro de álcool:"
@@ -417,7 +427,8 @@ class MainActivity : ComponentActivity() {
         } else if (gasolineDistance.isBlank()) {
             askForInputText = "Informe os km rodados por litro de gasolina:"
         }
-        if (alcoholValue.isBlank() ||
+        if (currency.isBlank() ||
+            alcoholValue.isBlank() ||
             gasolineValue.isBlank() ||
             gasolineDistance.isBlank() ||
             alcoholDistance.isBlank()
@@ -430,9 +441,55 @@ class MainActivity : ComponentActivity() {
             )
         }
         TextField(
+            value = currency,
+            onValueChange = {
+                currency = if (it.startsWith("0")) {
+                    ""
+                } else {
+                    it
+                }
+            },
+            prefix = {
+                Text(text = "R$ ", color = Color.White)
+            },
+            label = {
+                Text(
+                    text = "Valor do abastecimento",
+                    style = MaterialTheme.typography.labelMedium
+                )
+            },
+            visualTransformation = CurrencyAmountInputVisualTransformation(
+                fixedCursorAtTheEnd = true
+            ),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Number
+            ),
+            shape = RoundedCornerShape(20.dp),
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
+                focusedContainerColor = darkGray,
+                unfocusedContainerColor = darkGray,
+                disabledContainerColor = darkGray,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                focusedLabelColor = lightGray,
+                unfocusedLabelColor = lightGray,
+                focusedPlaceholderColor = lightGray,
+                unfocusedPlaceholderColor = lightGray,
+            )
+        )
+        TextField(
             value = alcoholValue,
             onValueChange = {
-                alcoholValue = it
+                alcoholValue = if (it.startsWith("0")) {
+                    ""
+                } else {
+                    it
+                }
             },
             prefix = {
                 Text(text = "R$ ", color = Color.White)
@@ -443,6 +500,9 @@ class MainActivity : ComponentActivity() {
                     style = MaterialTheme.typography.labelMedium
                 )
             },
+            visualTransformation = CurrencyAmountInputVisualTransformation(
+                fixedCursorAtTheEnd = true
+            ),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
@@ -499,7 +559,11 @@ class MainActivity : ComponentActivity() {
         TextField(
             value = gasolineValue,
             onValueChange = {
-                gasolineValue = it
+                gasolineValue = if (it.startsWith("0")) {
+                    ""
+                } else {
+                    it
+                }
             },
             prefix = {
                 Text(text = "R$ ", color = Color.White)
@@ -510,6 +574,9 @@ class MainActivity : ComponentActivity() {
                     style = MaterialTheme.typography.labelMedium
                 )
             },
+            visualTransformation = CurrencyAmountInputVisualTransformation(
+                fixedCursorAtTheEnd = true
+            ),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
@@ -566,15 +633,12 @@ class MainActivity : ComponentActivity() {
         Button(
             onClick = {
                 keyboardController?.hide()
-                result = AlcoholOrGasolineCalculator().specificCalculate(
+                result = AlcoholOrGasolineCalculator().specificCalculate(currency,
                     alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
                 )[0]
-                alcoholPerfomance = AlcoholOrGasolineCalculator().specificCalculate(
+                text = AlcoholOrGasolineCalculator().specificCalculate(currency,
                     alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
                 )[1]
-                gasolinePerfomance = AlcoholOrGasolineCalculator().specificCalculate(
-                    alcoholValue, alcoholDistance, gasolineValue, gasolineDistance
-                )[2]
             },
             enabled = (alcoholValue.isNotBlank() &&
                     gasolineValue.isNotBlank() &&
@@ -603,12 +667,6 @@ class MainActivity : ComponentActivity() {
                     .clip(RoundedCornerShape(20.dp))
                     .background(darkGray)
             ) {
-                text = String.format(
-                    "Por quê ${result.lowercase()} vale mais a pena?\n\n" +
-                            "Álcool: R$%.2f por km.\n" +
-                            "Gasolina: R$%.2f por km.",
-                    alcoholPerfomance.toDouble(), gasolinePerfomance.toDouble()
-                )
                 Text(
                     text = text,
                     style = MaterialTheme.typography.bodyMedium
@@ -621,18 +679,44 @@ class MainActivity : ComponentActivity() {
         return result
     }
 
+    private fun isLocationPermissionGranted(): Boolean {
+        return if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                44
+            )
+            false
+        } else {
+            true
+        }
+    }
+
     @Composable
     @SuppressLint("MissingPermission")
     fun locationComponent(): List<String> {
+
         var latitude by remember { mutableStateOf("") }
         var longitude by remember { mutableStateOf("") }
-        val context = LocalContext.current
-        LaunchedEffect(Unit) {
-            val fusedLocationClient: FusedLocationProviderClient =
-                LocationServices.getFusedLocationProviderClient(context)
-            fusedLocationClient.lastLocation.addOnSuccessListener { loc ->
-                latitude = loc?.latitude?.toString().orEmpty()
-                longitude = loc?.longitude?.toString().orEmpty()
+        if (isLocationPermissionGranted()) {
+            val context = LocalContext.current
+            LaunchedEffect(Unit) {
+                val fusedLocationClient: FusedLocationProviderClient =
+                    LocationServices.getFusedLocationProviderClient(context)
+                fusedLocationClient.lastLocation.addOnSuccessListener { loc ->
+                    latitude = loc?.latitude?.toString().orEmpty()
+                    longitude = loc?.longitude?.toString().orEmpty()
+                }
             }
         }
         return listOf(latitude, longitude)
@@ -642,7 +726,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AppPreview() {
         FuelChoiceTheme {
-            App(this)
+            App()
         }
     }
 }

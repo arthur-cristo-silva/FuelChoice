@@ -96,7 +96,6 @@ fun parseFuelStations(response: String): List<FuelStation> {
 fun FuelStationList(stations: List<FuelStation>) {
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
             .clip(RoundedCornerShape(20.dp))
     ) {
         for (station in stations) {

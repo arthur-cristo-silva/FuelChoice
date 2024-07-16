@@ -350,7 +350,6 @@ class MainActivity : ComponentActivity() {
             ),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Number
             ),
             shape = RoundedCornerShape(20.dp),
@@ -635,7 +634,6 @@ class MainActivity : ComponentActivity() {
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Number
             ),
             shape = RoundedCornerShape(20.dp),

@@ -34,6 +34,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -265,10 +266,10 @@ class MainActivity : ComponentActivity() {
         var askForInputText by remember {
             mutableStateOf("Por favor, insira o preço do litro de álcool:")
         }
-        var gasolineValue by remember {
+        var gasolineValue by rememberSaveable {
             mutableStateOf("")
         }
-        var alcoholValue by remember {
+        var alcoholValue by rememberSaveable {
             mutableStateOf("")
         }
         if (alcoholValue.isBlank()) {
@@ -421,22 +422,22 @@ class MainActivity : ComponentActivity() {
         var askForInputText by remember {
             mutableStateOf("Por favor, insira o preço do litro de álcool:")
         }
-        var gasolineDistance by remember {
+        var gasolineDistance by rememberSaveable {
             mutableStateOf("")
         }
-        var gasolineValue by remember {
+        var gasolineValue by rememberSaveable {
             mutableStateOf("")
         }
-        var alcoholDistance by remember {
+        var alcoholDistance by rememberSaveable {
             mutableStateOf("")
         }
-        var alcoholValue by remember {
+        var alcoholValue by rememberSaveable {
             mutableStateOf("")
         }
         var text by remember {
             mutableStateOf("")
         }
-        var currency by remember {
+        var currency by rememberSaveable {
             mutableStateOf("")
         }
         if (currency.isBlank()) {

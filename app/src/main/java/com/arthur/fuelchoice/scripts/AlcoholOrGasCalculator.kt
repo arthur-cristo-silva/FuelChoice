@@ -1,4 +1,4 @@
-package com.arthur.fuelchoice
+package com.arthur.fuelchoice.scripts
 
 import java.text.NumberFormat
 import java.util.Locale

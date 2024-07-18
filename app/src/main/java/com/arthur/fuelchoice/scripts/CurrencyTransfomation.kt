@@ -1,4 +1,4 @@
-package com.arthur.fuelchoice
+package com.arthur.fuelchoice.scripts
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping

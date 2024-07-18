@@ -1,4 +1,4 @@
-package com.arthur.fuelchoice
+package com.arthur.fuelchoice.scripts
 
 import android.content.Context
 import android.content.Intent
@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +30,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.arthur.fuelchoice.BuildConfig
 import com.arthur.fuelchoice.ui.theme.darkGray
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-data class FuelStation(
+data class GasStation(
     val name: String,
     val address: String,
     val image: String?,
@@ -40,11 +43,11 @@ data class FuelStation(
     val longitude: Double
 )
 
-fun findNearbyFuelStations(
+fun findNearbyGasStations(
     context: Context,
     latitude: String,
     longitude: String,
-    callback: (List<FuelStation>) -> Unit
+    callback: (List<GasStation>) -> Unit
 ) {
     val radius = 5000
     val type = "gas_station"
@@ -56,8 +59,8 @@ fun findNearbyFuelStations(
 
     val requestQueue = Volley.newRequestQueue(context)
     val request = StringRequest(Request.Method.GET, placesUrl, { result ->
-        val fuelStations = parseFuelStations(result)
-        callback(fuelStations)
+        val gasStations = parseGasStations(result)
+        callback(gasStations)
     }, { error ->
         Log.d("Error", error.message.toString())
         callback(emptyList())
@@ -65,8 +68,8 @@ fun findNearbyFuelStations(
     requestQueue.add(request)
 }
 
-fun parseFuelStations(response: String): List<FuelStation> {
-    val fuelStations = mutableListOf<FuelStation>()
+fun parseGasStations(response: String): List<GasStation> {
+    val gasStations = mutableListOf<GasStation>()
     val jsonObject = JSONObject(response)
     val results = jsonObject.getJSONArray("results")
 
@@ -84,68 +87,9 @@ fun parseFuelStations(response: String): List<FuelStation> {
         val location = result.getJSONObject("geometry").getJSONObject("location")
         val latitude = location.getDouble("lat")
         val longitude = location.getDouble("lng")
-        val fuelStation = FuelStation(name, address, image, latitude, longitude)
-        fuelStations.add(fuelStation)
+        val gasStation = GasStation(name, address, image, latitude, longitude)
+        gasStations.add(gasStation)
     }
-    return fuelStations
-}
-
-@Composable
-fun FuelStationList(stations: List<FuelStation>) {
-    Column(
-        modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
-    ) {
-        for (station in stations) {
-            FuelStationItem(station = station)
-        }
-    }
-}
-
-@Composable
-fun FuelStationItem(station: FuelStation) {
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { /* handle result */ }
-    val coroutineScope = rememberCoroutineScope()
-    if (station.image != null) {
-        Column(
-            modifier = Modifier
-                .padding(
-                    16.dp
-                )
-                .width(275.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(darkGray)
-                .clickable {
-                    coroutineScope.launch {
-                        val uri =
-                            "geo:${station.latitude},${station.longitude}?q=${station.name},${station.address}"
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                        intent.setPackage("com.google.android.apps.maps")
-                        launcher.launch(intent)
-                    }
-                }
-        ) {
-            Text(
-                text = station.name,
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(8.dp)
-            )
-            Text(
-                text = station.address,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(8.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Image(
-                painter = rememberAsyncImagePainter(model = station.image),
-                contentDescription = "Fuel Station Image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(20.dp)),
-                contentScale = ContentScale.Crop
-            )
-        }
-    }
+    return gasStations
 }
 

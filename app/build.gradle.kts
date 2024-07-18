@@ -26,7 +26,9 @@ android {
             val properties = Properties()
             properties.load(keystoreFile.inputStream())
             val mapsApiKey = properties.getProperty("MAPS_API_KEY") ?: ""
+            val isApiEnabled = properties.getProperty("IS_API_ENABLED")?.toBoolean() ?: false
             buildConfigField("String", "MAPS_API_KEY", "\"$mapsApiKey\"")
+            buildConfigField("Boolean", "IS_API_ENABLED", isApiEnabled.toString())
         } else {
             throw FileNotFoundException("env.properties file not found")
         }
@@ -74,6 +76,7 @@ dependencies {
     implementation(libs.volley)
     implementation(libs.play.services.location)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

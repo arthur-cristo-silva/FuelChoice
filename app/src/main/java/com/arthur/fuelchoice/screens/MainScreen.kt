@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -53,6 +54,8 @@ import com.arthur.fuelchoice.ui.theme.lightGreen
 
 @Composable
 fun MainScreen(navController: NavController) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val pattern = remember { Regex("^\\d+\$") }
     val activity = LocalContext.current as Activity
     var result by rememberSaveable {
         mutableStateOf("")
@@ -132,9 +135,9 @@ fun MainScreen(navController: NavController) {
                 )
             }
             result = if (isSimpleFormula) {
-                simpleFormulaView()
+                simpleFormulaView(keyboardController, pattern)
             } else {
-                specificFormulaView()
+                specificFormulaView(keyboardController, pattern)
             }
             Button(
                 onClick = {
@@ -162,8 +165,7 @@ fun MainScreen(navController: NavController) {
 }
 
 @Composable
-fun simpleFormulaView(): String {
-    val keyboardController = LocalSoftwareKeyboardController.current
+fun simpleFormulaView(keyboardController: SoftwareKeyboardController?, pattern: Regex): String {
     var result by remember {
         mutableStateOf("")
     }
@@ -193,11 +195,12 @@ fun simpleFormulaView(): String {
     TextField(
         value = alcoholValue,
         onValueChange = {
+            if (it.isEmpty() || it.matches(pattern)) {
             alcoholValue = if (it.startsWith("0")) {
                 ""
             } else {
                 it
-            }
+            }}
         },
         prefix = {
             Text(text = "R$ ", color = Color.White)
@@ -235,11 +238,12 @@ fun simpleFormulaView(): String {
     TextField(
         value = gasolineValue,
         onValueChange = {
+            if (it.isEmpty() || it.matches(pattern)) {
             gasolineValue = if (it.startsWith("0")) {
                 ""
             } else {
                 it
-            }
+            }}
         },
         prefix = {
             Text(text = "R$ ", color = Color.White)
@@ -321,8 +325,7 @@ fun simpleFormulaView(): String {
 }
 
 @Composable
-fun specificFormulaView(): String {
-    val keyboardController = LocalSoftwareKeyboardController.current
+fun specificFormulaView(keyboardController: SoftwareKeyboardController?, pattern: Regex) : String {
     var result by remember {
         mutableStateOf("")
     }
@@ -374,11 +377,13 @@ fun specificFormulaView(): String {
     TextField(
         value = currency,
         onValueChange = {
+            if (it.isEmpty() || it.matches(pattern)) {
             currency = if (it.startsWith("0")) {
                 ""
             } else {
                 it
             }
+                }
         },
         prefix = {
             Text(text = "R$ ", color = Color.White)
@@ -416,11 +421,12 @@ fun specificFormulaView(): String {
     TextField(
         value = alcoholValue,
         onValueChange = {
+            if (it.isEmpty() || it.matches(pattern)) {
             alcoholValue = if (it.startsWith("0")) {
                 ""
             } else {
                 it
-            }
+            }}
         },
         prefix = {
             Text(text = "R$ ", color = Color.White)
@@ -458,7 +464,9 @@ fun specificFormulaView(): String {
     TextField(
         value = alcoholDistance,
         onValueChange = {
-            alcoholDistance = it
+            if (it.isEmpty() || it.matches(pattern)) {
+                alcoholDistance = it
+            }
         },
         label = {
             Text(
@@ -490,11 +498,12 @@ fun specificFormulaView(): String {
     TextField(
         value = gasolineValue,
         onValueChange = {
+            if (it.isEmpty() || it.matches(pattern)) {
             gasolineValue = if (it.startsWith("0")) {
                 ""
             } else {
                 it
-            }
+            }}
         },
         prefix = {
             Text(text = "R$ ", color = Color.White)
@@ -532,7 +541,9 @@ fun specificFormulaView(): String {
     TextField(
         value = gasolineDistance,
         onValueChange = {
-            gasolineDistance = it
+            if (it.isEmpty() || it.matches(pattern)) {
+                gasolineDistance = it
+            }
         },
         label = {
             Text(

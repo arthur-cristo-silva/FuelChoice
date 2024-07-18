@@ -1,6 +1,7 @@
 package com.arthur.fuelchoice.screens
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,6 +44,7 @@ import com.arthur.fuelchoice.BuildConfig
 import com.arthur.fuelchoice.Routes
 import com.arthur.fuelchoice.scripts.AlcoholOrGasolineCalculator
 import com.arthur.fuelchoice.scripts.CurrencyAmountInputVisualTransformation
+import com.arthur.fuelchoice.scripts.LockScreenOrientation
 import com.arthur.fuelchoice.scripts.isLocationPermissionGranted
 import com.arthur.fuelchoice.ui.theme.blackBackGround
 import com.arthur.fuelchoice.ui.theme.darkGray
@@ -52,12 +54,13 @@ import com.arthur.fuelchoice.ui.theme.lightGreen
 @Composable
 fun MainScreen(navController: NavController) {
     val activity = LocalContext.current as Activity
-    var result by remember {
+    var result by rememberSaveable {
         mutableStateOf("")
     }
     var isSimpleFormula by remember {
         mutableStateOf(true)
     }
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     Column(
         Modifier
             .background(blackBackGround)

@@ -3,6 +3,7 @@ package com.arthur.fuelchoice.screens
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,6 +46,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.arthur.fuelchoice.Routes
 import com.arthur.fuelchoice.scripts.GasStation
+import com.arthur.fuelchoice.scripts.LockScreenOrientation
 import com.arthur.fuelchoice.scripts.findNearbyGasStations
 import com.arthur.fuelchoice.scripts.isLocationPermissionGranted
 import com.arthur.fuelchoice.ui.theme.blackBackGround
@@ -137,6 +139,7 @@ fun GasStationItem(station: GasStation) {
 @Composable
 fun GasStationsScreen(navController: NavController) {
     val context = LocalContext.current
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     Column(
         Modifier
             .background(blackBackGround)

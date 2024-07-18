@@ -55,8 +55,8 @@ class AlcoholOrGasolineCalculator {
                 String.format(
                     Locale.getDefault(),
                     "$result vale mais a pena, porquê com R$%.2f você consegue abastecer:\n\n" +
-                            "Álcool: %.1fL, o que lhe permite dirigir por %.1fkm.\n\n" +
-                            "Gasolina: %.1fL, o que lhe permite dirigir por %.1fkm.", currencyValue,
+                            "Álcool: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.\n\n" +
+                            "Gasolina: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.", currencyValue,
                     alcoholLiters, alcoholKm,
                     gasolineLiters, gasolineKm
                 )
@@ -64,8 +64,8 @@ class AlcoholOrGasolineCalculator {
                 String.format(
                     Locale.getDefault(),
                     "Ambos valem a pena, porquê com R$%.2f você consegue abastecer:\n\n" +
-                            "Álcool: %.1fL, o que lhe permite dirigir por %.1fkm.\n\n" +
-                            "Gasolina: %.1fL, o que lhe permite dirigir por %.1fkm.", currencyValue,
+                            "Álcool: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.\n\n" +
+                            "Gasolina: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.", currencyValue,
                     alcoholLiters, alcoholKm,
                     gasolineLiters, gasolineKm
                 )

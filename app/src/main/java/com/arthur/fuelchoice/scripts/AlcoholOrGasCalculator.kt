@@ -52,24 +52,22 @@ class AlcoholOrGasolineCalculator {
                 else -> "Idem"
             }
             text = if (result != "Idem") {
-                String.format(
-                    Locale.getDefault(),
-                    "$result vale mais a pena, porquê com R$%.2f você consegue abastecer:\n\n" +
-                            "Álcool: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.\n\n" +
-                            "Gasolina: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.", currencyValue,
-                    alcoholLiters, alcoholKm,
-                    gasolineLiters, gasolineKm
-                )
+                "$result vale mais a pena, porquê com R$%.2f você consegue abastecer:\n\n"
             } else {
-                String.format(
-                    Locale.getDefault(),
-                    "Ambos valem a pena, porquê com R$%.2f você consegue abastecer:\n\n" +
-                            "Álcool: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.\n\n" +
-                            "Gasolina: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm.", currencyValue,
-                    alcoholLiters, alcoholKm,
-                    gasolineLiters, gasolineKm
-                )
+                "Ambos valem a pena, porquê com R$%.2f você consegue abastecer:\n\n"
             }
+            text += String.format(
+                Locale.getDefault(),
+                "Álcool: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm (R$%.2f/km).\n\n" +
+                        "Gasolina: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm (R$%.2f/km).",
+                currencyValue,
+                alcoholLiters,
+                alcoholKm,
+                currencyValue / alcoholKm,
+                gasolineLiters,
+                gasolineKm,
+                currencyValue / gasolineKm
+            )
         } catch (e: NumberFormatException) {
             result = "Dados Inválidos"
             text = "Dados Inválidos"

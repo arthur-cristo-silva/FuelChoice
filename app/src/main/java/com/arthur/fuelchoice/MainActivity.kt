@@ -52,7 +52,16 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AppPreview() {
         FuelChoiceTheme {
-            MainScreen(rememberNavController())
+            val navControl = rememberNavController()
+            NavHost(navControl, startDestination = Routes.mainScreen,
+                builder = {
+                    composable(Routes.mainScreen) {
+                        MainScreen(navControl)
+                    }
+                    composable(Routes.gasStationsScreen) {
+                        GasStationsScreen(navControl)
+                    }
+                })
         }
     }
 }

@@ -78,7 +78,7 @@ fun MainScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "FuelChoice",
+                text = "Fuel Choice",
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.White,
                 fontSize = 48.sp,
@@ -89,7 +89,7 @@ fun MainScreen(navController: NavController) {
                     text = "Vale mais a pena abastecer com",
                     style = MaterialTheme.typography.titleMedium,
                     color = Color(0xFF8C8C8C),
-                    fontSize = 22.sp
+                    fontSize = 18.sp
                 )
                 Text(
                     result,

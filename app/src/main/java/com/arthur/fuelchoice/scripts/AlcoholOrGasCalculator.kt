@@ -52,15 +52,20 @@ class AlcoholOrGasolineCalculator {
                 else -> "Idem"
             }
             text = if (result != "Idem") {
-                "$result vale mais a pena, porquê com R$%.2f você consegue abastecer:\n\n"
+                String.format(
+                    Locale.getDefault(),
+                    "$result vale mais a pena, porquê com R$%.2f você consegue abastecer:\n\n",
+                    currencyValue)
             } else {
-                "Ambos valem a pena, porquê com R$%.2f você consegue abastecer:\n\n"
+                String.format(
+                    Locale.getDefault(),
+                "Ambos valem a pena, porquê com R$%.2f você consegue abastecer:\n\n",
+                    currencyValue)
             }
             text += String.format(
                 Locale.getDefault(),
                 "Álcool: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm (R$%.2f/km).\n\n" +
                         "Gasolina: Aproximadamente %.1fL, o que lhe permite dirigir por até %.1fkm (R$%.2f/km).",
-                currencyValue,
                 alcoholLiters,
                 alcoholKm,
                 currencyValue / alcoholKm,
